@@ -1,4 +1,4 @@
-# <img src="https://www.svgrepo.com/show/474291/arrow-short-left.svg" height="40px" alt=""> Artisto
+#  <div style="display: flex; align-items: center;"><img src="https://www.svgrepo.com/show/474291/arrow-short-left.svg" height="40px" alt=""> ARTISTO</div>
 
 Artisto is a web application designed for managing and viewing art-related content. It provides users with the ability to browse through a library of art resources, view recently accessed items, and learn more about the platform.
 
