@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://www.svgrepo.com/show/474291/arrow-short-left.svg">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #f8fafd;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .content-container {
+            border-radius: 10px;
+            display: flex;
+            width: 100%;
+            height: 250px;
+        }
+
+        .cover-image img {
+            border-radius: 10px;
+            height: 100%;
+        }
+
+        .content-info {
+            display: flex;
+            justify-content: end;
+            flex-direction: column;
+            align-items: end;
+            width: 100%;
+        }
+
+        .content-info h2 {
+            text-align: left;
+            width: 100%;
+        }
+
+        .content-info p {
+            color: rgb(161, 161, 161);
+            text-align: left;
+            width: 100%;
+            min-height: 100px;
+            overflow: hidden;
+        }
+
+
+        #loading img {
+            height: 100%;
+        }
+
+        #loading {
+            margin: 0 auto;
+            height: 150px;
+            width: max-content;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        #recent {
+            display: none;
+        }
+
+        #recent:target {
+            display: block;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 250px auto;
+            grid-template-rows: 60px auto;
+            height: 100vh;
+        }
+
+        .files-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+
+        .search-bar {
+            background-color: #e9eef6;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            border-radius: 50px;
+            margin: 2px;
+        }
+
+        .search-icon {
+            padding: 5px;
+            margin: 4px;
+            border-radius: 50%;
+        }
+
+        .search-bar input {
+            background-color: #0000;
+            border: none;
+            width: 100%;
+            height: 30px;
+            padding: 0 20px;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-bar input:focus+.search-bar {
+            background-color: white !important;
+        }
+
+
+        .for-new {
+            align-items: center;
+            border-radius: 20px;
+            box-shadow: var(--dt-shadow-elevation-1, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15));
+            grid-template-columns: auto 1fr;
+            height: 3.5rem;
+            min-width: 6.25rem;
+            background-color: white;
+            border: none;
+            padding: 1.125rem 1.25rem 1.125rem 1rem;
+            cursor: pointer;
+        }
+
+        .nav-link {
+            width: 90%;
+            margin: 10px auto;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(0, 0, 0, 0.077);
+        }
+
+        .nav-link:active {
+            background-color: rgb(194, 231, 255);
+        }
+
+        .nav-icon {
+            background-image: url("https://www.svgrepo.com/show/297000/library-book.svg");
+        }
+
+        .bi {
+            display: inline-block;
+            position: relative;
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.75rem;
+            top: -1px;
+            background-size: cover;
+        }
+
+        .bi-house-door-fill-nav-menu {
+            background-image: url("https://www.svgrepo.com/show/297000/library-book.svg");
+        }
+
+        .bi-list-nested-nav-menu {
+            background-image: url("https://www.svgrepo.com/show/324204/about-information-info-help.svg");
+        }
+
+        .bi-clock-fill-nav-menu {
+            background-image: url("https://www.svgrepo.com/show/304509/recent.svg");
+        }
+
+        #about {
+            display: none;
+        }
+
+        #library,
+        #about:target {
+            display: block;
+        }
+
+        .hero {
+            background-image: url('https://i.pinimg.com/originals/a5/7e/bf/a57ebf5a082595205a53213f496a42c1.gif');
+            /* Replace 'hero-background.jpg' with your actual image */
+            background-size: cover;
+            background-position: center;
+            color: #595959;
+            text-align: center;
+            padding: 70px 0;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        /* CSS styles for about section */
+        .about {
+            padding: 50px 20px;
+        }
+
+        .about h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: rgb(164, 164, 164);
+        }
+
+        .popup {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            /* Adjusted z-index */
+        }
+
+        .success-popup {
+            background-color: #28a745;
+            /* Green */
+        }
+
+        .error-popup {
+            background-color: #dc3545;
+            /* Red */
+        }
+
+        .burger{
+            display: none;
+        }
+
+        @media (max-width:950px) {
+            .files-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width:650px) {
+            .layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                grid-template-rows: 60px 60px auto 0;
+                height: 100vh;
+            }
+
+            .content-container {
+                height: 200px;
+            }
+
+            .burger{
+                display: block;
+            }
+
+            #menu{
+                position: absolute;
+                background-color: #e9eef6;
+                left: 0;
+                right: 0;
+                top: 120px;
+                display: none;
+            }
+        }
+    </style>
+
+    <script>
+        // Check if the URL doesn't have a hash (just the base URL)
+        if (!window.location.hash) {
+            // Append #library to the URL
+            window.location.hash = '#library';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="layout">
+        <div style="display: flex; justify-content: space-between; margin: 5px; align-items: center;">
+            <div style="display: flex; align-items: center;">
+                <img src="https://www.svgrepo.com/show/474291/arrow-short-left.svg" height="40px" alt="">
+                <h3 style="margin: 0;">ARTISICO</h3>
+            </div>
+            <div class="burger" onclick="toggleMenu()" target="_blank">
+                <img src="https://www.svgrepo.com/show/489710/burger-menu.svg" height="50px" alt="">
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; width: 100%;">
+            <div class="top-row px-4" style="width: 100%;">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search for plots..." oninput="searchFiles()">
+                    <div class="search-icon">
+                        <svg fill="#000000" height="25px" width="25px" version="1.1" id="Capa_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 488.4 488.4" xml:space="preserve">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M0,203.25c0,112.1,91.2,203.2,203.2,203.2c51.6,0,98.8-19.4,134.7-51.2l129.5,129.5c2.4,2.4,5.5,3.6,8.7,3.6 s6.3-1.2,8.7-3.6c4.8-4.8,4.8-12.5,0-17.3l-129.6-129.5c31.8-35.9,51.2-83,51.2-134.7c0-112.1-91.2-203.2-203.2-203.2 S0,91.15,0,203.25z M381.9,203.25c0,98.5-80.2,178.7-178.7,178.7s-178.7-80.2-178.7-178.7s80.2-178.7,178.7-178.7 S381.9,104.65,381.9,203.25z">
+                                        </path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const searchBarInput = document.querySelector('.search-bar input');
+                const searchBarContainer = document.querySelector('.search-bar');
+
+                searchBarInput.addEventListener('focus', function () {
+                    searchBarContainer.style.backgroundColor = 'white';
+                    searchBarContainer.style.boxShadow = 'var(--dt-shadow-elevation-1, 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15))';
+                });
+
+                searchBarInput.addEventListener('blur', function () {
+                    searchBarContainer.style.backgroundColor = '#e9eef6';
+                    searchBarContainer.style.boxShadow = 'none';
+                });
+            </script>
+        </div>
+        <div id="menu">
+            <div style="padding: 8px 16px 16px; max-width: 256px;box-sizing: border-box;">
+                <a href="https://forms.gle/Y167pEFsU8ApMCMm7" target="_blank"><button class="for-new"><span><svg
+                                width="24" height="24" viewBox="0 0 24 24" focusable="false">
+                                <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
+                            </svg></span><span class="jYPt8c">New</span>
+                    </button>
+                </a>
+            </div>
+            <a href="#library" class="nav-link">
+                <div><span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Library</div>
+            </a>
+            <a href="#recent" class="nav-link">
+                <div><span class="bi bi-clock-fill-nav-menu" aria-hidden="true"></span>Recent</div>
+            </a>
+            <a href="#about" class="nav-link">
+                <div><span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span>About</div>
+            </a>
+
+            <script>
+                function toggleMenu() {
+                    const menu = document.getElementById('menu');
+                    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+                }
+            </script>
+
+        </div>
+        <div class="bg-white p-2" style="overflow-y: scroll; border-radius: 10px;">
+            <div id="library" class="section">
+                <h1>Library</h1>
+                <div class="files-grid" id="myContentContainer">
+                </div>
+                <div id="loading">
+                    <img src="https://cdn.dribbble.com/users/1186261/screenshots/3718681/_______.gif" alt="Loading...">
+                </div>
+            </div>
+
+            <div id="recent" class="section">
+                <h1>Recent</h1>
+                <script>// Function to handle when a user clicks on a card link
+                    function handleCardClick(event) {
+                        // Capture the data of the clicked card
+                        const cardData = {
+                            title: event.currentTarget.querySelector('.content-info h2').textContent,
+                            description: event.currentTarget.querySelector('.content-info p').textContent,
+                            pdfLink: event.currentTarget.querySelector('.content-info a').getAttribute('href'),
+                            coverImage: event.currentTarget.querySelector('.cover-image img').getAttribute('src')
+                        };
+
+                        // Store the captured card data locally
+                        saveCardDataLocally(cardData);
+
+                        // Render the recently opened card
+                        renderRecentCard(cardData);
+                    }
+
+                    // Function to save card data locally
+                    function saveCardDataLocally(cardData) {
+                        // Get the previously saved card data from local storage
+                        let recentCards = JSON.parse(localStorage.getItem('recentCards')) || [];
+
+                        // Add the new card data to the array of recent cards
+                        recentCards.push(cardData);
+
+                        // Limit the number of recent cards to keep (if needed)
+                        // Adjust the limit as per your requirement
+                        const MAX_RECENT_CARDS = 10;
+                        if (recentCards.length > MAX_RECENT_CARDS) {
+                            recentCards = recentCards.slice(-MAX_RECENT_CARDS);
+                        }
+
+                        // Save the updated recent cards data back to local storage
+                        localStorage.setItem('recentCards', JSON.stringify(recentCards));
+                    }
+
+                    // Function to render the recently opened card
+                    function renderRecentCard(cardData) {
+                        const recentContainer = document.getElementById('recent');
+
+                        // Generate HTML markup for the recent card
+                        const recentCardHTML = `
+                            <div class="bg-light p-1 content-container">
+                                <div class="cover-image">
+                                    <a href="${cardData.pdfLink}" target="_blank">
+                                        <img src="${cardData.coverImage}" alt="">
+                                    </a>
+                                </div>
+                                <div class="p-2 content-info">
+                                    <h2 class="text-dark">${cardData.title}</h2>
+                                    <p>${cardData.description}</p>
+                                    <div style="height: 100%;"></div>
+                                    <a href="${cardData.pdfLink}" target="_blank">
+                                        <img src="https://raw.githubusercontent.com/jatin0jha/jatin0jha/ba706fea77d7890b95a1c0863b6213c48c317de2/upload.svg" alt="">
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+
+                        // Append the recent card HTML to the recent container
+                        recentContainer.insertAdjacentHTML('beforeend', recentCardHTML);
+                    }
+
+                    // Add event listeners to card links in the content container
+                    document.getElementById("myContentContainer").addEventListener('click', function (event) {
+                        if (event.target.closest('.content-container')) {
+                            handleCardClick(event);
+                        }
+                    });
+
+                    // Function to render recently opened cards from local storage
+                    function renderRecentCardsFromLocalStorage() {
+                        const recentCards = JSON.parse(localStorage.getItem('recentCards')) || [];
+
+                        // Render each recent card
+                        recentCards.forEach(cardData => {
+                            renderRecentCard(cardData);
+                        });
+                    }
+
+                    // Render the recent cards when the page loads
+                    window.addEventListener('DOMContentLoaded', function () {
+                        renderRecentCardsFromLocalStorage();
+                    });
+
+                </script>
+            </div>
+            <div id="about" class="section">
+                <div class="hero">
+                    <h1>Welcome to Artistry Hub</h1>
+                    <p>A specialized platform for 2D and 3D artists</p>
+                </div>
+                <section class="about">
+                    <h2>About Our Project</h2>
+                    <p>Welcome to Artistry Hub, a specialized platform designed with 2D and 3D artists in mind. Our
+                        project is dedicated
+                        to providing a seamless and intuitive experience for artists to showcase their work, connect
+                        with fellow
+                        creators, and explore a wealth of inspiring content.</p>
+
+                    <h2>Why This Project?</h2>
+                    <p>In the dynamic world of digital artistry, finding the right platform to exhibit your creations
+                        and connect with
+                        like-minded individuals can be challenging. That's where Artistry Hub comes in. Built by
+                        artists, for artists,
+                        our project offers a tailored environment that celebrates the diversity and creativity of the 2D
+                        and 3D art
+                        community.</p>
+
+                    <h2>What Sets Us Apart</h2>
+                    <p>- **Artist-Centric Approach:** We understand the unique needs and challenges faced by 2D and 3D
+                        artists. That's
+                        why our project is designed to prioritize the needs of creators, providing them with the tools
+                        and resources
+                        they need to thrive.</p>
+
+                    <p>- **Inspiration and Collaboration:** Whether you're looking for inspiration for your next project
+                        or seeking
+                        collaborators for a new venture, Artistry Hub is the perfect place to connect with fellow
+                        artists, share ideas,
+                        and collaborate on exciting new projects.</p>
+
+                    <p>- **Diverse Showcase:** From stunning 2D illustrations to immersive 3D renders, our platform
+                        offers a diverse
+                        showcase of artwork from talented artists around the globe. Explore a wide range of styles,
+                        techniques, and
+                        genres, and discover new favorites along the way.</p>
+
+                    <h2>Join Us Today</h2>
+                    <p>Whether you're an established artist or just starting on your creative journey, Artistry Hub is
+                        here to support
+                        you every step of the way. Join our community today and unlock a world of possibilities for your
+                        artistry. Let
+                        your imagination soar and your creativity thrive with Artistry Hub.</p>
+                </section>
+
+                <div id="successPopup" class="popup success-popup">Message sent successfully!</div>
+                <div id="errorPopup" class="popup error-popup">Failed to send message. Please try again later.</div>
+
+                <div style="display: flex; max-width: 500px; margin: 20px auto;" class="form-group">
+                    <input type="text" id="messageInput" class="form-control" placeholder="Enter your message">
+                    <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+                </div>
+
+
+                <script>
+                    function sendMessage() {
+                        const webhookUrl = 'https://discord.com/api/webhooks/1228360772162424913/bBqs3_Gzdf7gZHPgaw1paDsanyn9fV5lA1PZjBkvTFH8qkZfeQyR5sVpYBJQl4X3lkjx';
+                        const message = document.getElementById('messageInput').value;
+
+                        // Make sure message is not empty
+                        if (message.trim() === '') {
+                            showAlert('Please enter a message', 'error-popup');
+                            return;
+                        }
+
+                        // Send POST request to Discord webhook
+                        fetch(webhookUrl, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ content: message })
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to send message');
+                                }
+                                showAlert('Message sent successfully!', 'success-popup');
+                            })
+                            .catch(error => {
+                                console.error('Error sending message:', error);
+                                showAlert('Failed to send message. Please try again later.', 'error-popup');
+                            });
+                    }
+
+                    function showAlert(message, className) {
+                        const popup = document.createElement('div');
+                        popup.textContent = message;
+                        popup.classList.add('popup', className);
+
+                        document.body.appendChild(popup);
+
+                        setTimeout(() => {
+                            popup.style.opacity = '1';
+                            setTimeout(() => {
+                                popup.style.opacity = '0';
+                                setTimeout(() => {
+                                    document.body.removeChild(popup);
+                                }, 300);
+                            }, 2000);
+                        }, 100);
+                    }
+
+                </script>
+            </div>
+        </div>
+        <script>
+            // Select all navigation links
+            const navButtons = document.querySelectorAll('.nav-link');
+
+            // Initialize variable to store the previously clicked link
+            let previousNavButton = null;
+
+            // Set the initial active link to #library
+            const initialActiveLink = document.querySelector('a[href="#library"]');
+            initialActiveLink.style.backgroundColor = 'rgb(194, 231, 255)';
+            previousNavButton = initialActiveLink;
+
+            // Get all sections
+            const sections = document.querySelectorAll('.section');
+
+            // Show the section based on the hash in the URL
+            function showSection(hash) {
+                // Hide all sections
+                sections.forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                // Show the section corresponding to the hash
+                const targetSection = document.getElementById(hash);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+            }
+
+            // Function to handle navigation link clicks
+            function handleNavClick(event) {
+                event.preventDefault(); // Prevent default anchor behavior
+                event.stopPropagation(); // Stop event propagation to prevent issues with navigation logic
+
+                const navButton = event.currentTarget;
+
+                // Reset the background color of the previously clicked link
+                if (previousNavButton) {
+                    previousNavButton.style.backgroundColor = '';
+                }
+
+                // Set the background color of the clicked link
+                navButton.style.backgroundColor = 'rgb(194, 231, 255)';
+
+                // Update the previously clicked link
+                previousNavButton = navButton;
+
+                // Show the corresponding section
+                const hash = navButton.getAttribute('href').substr(1); // Extract the hash from the href attribute
+                showSection(hash);
+            }
+
+            // Add click event listener to navigation links
+            navButtons.forEach(navButton => {
+                navButton.addEventListener('click', handleNavClick);
+            });
+
+            // Show the appropriate section when the page loads
+            window.addEventListener('DOMContentLoaded', function () {
+                const hash = window.location.hash.substr(1); // Extract the hash from the URL
+                showSection(hash);
+            });
+        </script>
+
+    </div>
+</body>
+
+<script>
+    let searchData; // To store the original data for reset
+
+    // Hide the content container and show the loading animation
+    document.getElementById("myContentContainer").style.display = "none";
+    document.getElementById("loading").style.display = "block";
+
+    fetch('https://script.googleusercontent.com/macros/echo?user_content_key=q4wwBgNWIKYx4Eu7_GOqNuiQS1U6pATiPYRrojAmxjq9ELwCCRmmdDKDbnTZ8DcZm2u_5E-VUyM-TEBO7JbGIFHn_N0BhvcBm5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnN3qIGTLz4U0QCznjMAiFIBjg3sDBxIuBUFb6llJZ-HsCkaRr-U-pvhhonTEC3cIx8Mz7f7RLIjIfcJSmWxs5bNBKABpDR5oUg&lib=MTKY7IWoEIUZ-OaLI0TuvsCUIHiZ-_zcK')
+        .then(res => res.json())
+        .then(data => {
+            // Once the data is loaded, hide the loading animation and show the content container
+            document.getElementById("myContentContainer").style.display = "grid";
+            document.getElementById("loading").style.display = "none";
+
+            searchData = data.content; // Store the original data for reset
+            renderFiles(data.content); // Render the files initially
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            // In case of an error, hide the loading animation and show an error message
+            document.getElementById("loading").innerHTML = "Error fetching data. Please try again later.";
+        });
+
+    // Function to render files based on search input
+    function renderFiles(data) {
+        let content = '';
+
+        // Iterate over the data to create content for each item
+        data.forEach(item => {
+            let title = item[2];
+            let description = item[3];
+            let pdfLink = item[4];
+            let coverImage = item[5]; // Assuming the cover image URL is in the 6th column
+
+            // Check if the cover image URL is valid
+            if (coverImage && (coverImage.startsWith("http://") || coverImage.startsWith("https://"))) {
+                let itemHTML = `
+                    <div class="bg-light p-1 content-container">
+                        <div class="cover-image">
+                            <a href="${pdfLink}" target="_blank">
+                                <img src="${coverImage}" alt="">
+                            </a>
+                        </div>
+                        <div class="p-2 content-info">
+                            <h2 class="text-dark">${title}</h2>
+                            <p>${description}</p>
+                            <div style="height: 100%;"></div>
+                            <a href="${pdfLink}" target="_blank">
+                                <img src="https://raw.githubusercontent.com/jatin0jha/jatin0jha/ba706fea77d7890b95a1c0863b6213c48c317de2/upload.svg" alt="">
+                            </a>
+                        </div>
+                    </div>
+                `;
+                content += itemHTML;
+            }
+        });
+
+        // Populate the content into the content container
+        document.getElementById("myContentContainer").innerHTML = content;
+    }
+
+    // Function to handle search input
+    function searchFiles() {
+        let searchTerm = document.getElementById("searchInput").value.toLowerCase();
+        let filteredData = searchData.filter(item => {
+            let title = item[2].toLowerCase();
+            let description = item[3].toLowerCase();
+            return title.includes(searchTerm) || description.includes(searchTerm);
+        });
+        renderFiles(filteredData);
+    }
+</script>
+
+</html>
