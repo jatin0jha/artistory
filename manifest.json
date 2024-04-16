@@ -1,0 +1,21 @@
+{
+    "name" : "pwa app",
+    "short_name" : "pwa app",
+    "description" : "desc",
+    "icons" : [
+        {
+            "src" : "https://www.svgrepo.com/show/474291/arrow-short-left.svg",
+            "sizes" : "512x512",
+            "type" : "image/png"
+        },
+        {
+            "src" : "https://www.svgrepo.com/show/474291/arrow-short-left.svg",
+            "sizes" : "144x144",
+            "type" : "image/png"
+        }
+    ],
+    "start_url" : "/",
+    "display" : "fullscreen",
+    "theme_color" : "black",
+    "background_color" : "white"
+}
